@@ -30,7 +30,7 @@ HTTP 请求体默认限时 10 秒（`LAYA_BODY_READ_TIMEOUT`），启用 API key
 Core ML 张量、模型文件、`compute_units`、编译模型和形状缓存边界保持原有实现。
 完整变更、测试范围和限制见[迁移说明](docs/MIGRATION_0_4_17.md)、
 [26 项源文件清单](docs/UPSTREAM_PORT.json)和[当前 API 审计](docs/UPSTREAM_0417_API_AUDIT.json)。
-Linux 主机测试不能代替 macOS 原生推理与真实模型验收；此次未请求发布。
+本次 [CI](https://github.com/Omicron0314/laya-coreml/actions/runs/40825520186) 中，Linux 通过 386 项测试、跳过 3 项 macOS 专用测试；macOS 的 389 项全部通过，包含原生转换与推理。两边的构建及 Twine 严格检查均通过。完整真实模型的稳定性、性能和能耗基准未重跑；此次未请求发布。
 原有[0.5.1 发布说明](docs/RELEASE_0_5_1.md)、六个自适应 FP16/FP32 模型以及
 [历史验收证据](docs/UPSTREAM_0412_PROGRESS.json)仍对应 v0.4.12，不代表此次源码已通过同等验收。
 

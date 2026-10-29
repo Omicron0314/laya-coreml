@@ -55,7 +55,7 @@
     "Shared upstream long-attribution helper uses the original host-only encoder/forward fixture; all 49 assertions are retained.",
     "Confidence decoder runs Core ML host methods; ONNX and six PyTorch/TileLang-only checks are excluded."
   ],
-  "migration_status": "source_port_static_checks_passed_pending_ci_review",
+  "migration_status": "linux_macos_ci_passed_independently_reviewed",
   "public_api_audit": "docs/UPSTREAM_0417_API_AUDIT.json",
   "migration_report": "docs/MIGRATION_0_4_17.md",
   "historical_v0412_evidence": {
@@ -248,7 +248,17 @@
     "native_cli_isolated_smoke": "6 passed; loader mocked",
     "pytest": "not run: dependency installation did not complete",
     "build_twine_wheel_smoke": "not run: dependency installation did not complete",
-    "native_macOS_and_real_model_checks": "pending remote validation",
-    "review_gate": "required"
+    "native_macOS_and_real_model_checks": "not run locally; remote CI recorded separately",
+    "review_gate": "two independent source reviews found no blockers"
+  },
+  "remote_ci": {
+    "url": "https://github.com/Omicron0314/laya-coreml/actions/runs/40825520186",
+    "source_commit": "23a317b62b77227e944cefe9c68bab55ca6f41a0",
+    "conclusion": "success",
+    "linux": {"passed": 386, "skipped": 3},
+    "macos": {"passed": 389, "skipped": 0},
+    "public_api_audit": "345 entries, zero unclassified differences on both platforms",
+    "build_and_strict_twine": "passed on both platforms",
+    "limits": "Full-checkpoint stability, inference-only wheel smoke and performance/energy benchmarks not rerun"
   }
 }

@@ -9,6 +9,9 @@ compiled-model and shape-cache behavior remains native. See the
 [current migration and validation scope](docs/MIGRATION_0_4_17.md),
 [complete source inventory](docs/UPSTREAM_PORT.json) and
 [public API audit](docs/UPSTREAM_0417_API_AUDIT.json).
+Linux CI passed 386 tests (three macOS-only skips); macOS passed all 389 tests,
+including native conversion/inference. Build and strict Twine checks passed on both
+([CI evidence](https://github.com/Omicron0314/laya-coreml/actions/runs/40825520186)).
 
 No new release is requested. The [0.5.1 release notes](docs/RELEASE_0_5_1.md),
 [six FP16/FP32 bundles](docs/RELEASE_0_5_1.md) and recorded performance below

@@ -115,7 +115,8 @@ The CI matrix retains Linux and macOS conversion, development, demo, publishing,
 reference, HTTP/MCP, structured and installed LlamaIndex extras; no gate is removed.
 Local validation results are recorded below. Native Core ML
 conversion/inference and real-model fixture/stability checks require macOS and
-are not claimed from Linux host results. Review and remote CI remain required.
+are not claimed from Linux host results. Remote CI and independent review results
+are recorded below.
 
 ## Historical evidence
 
@@ -136,7 +137,7 @@ cached sibling Ruff 0.15.8 was reused. No system packages were modified.
 | `../laya-mlx/.venv/bin/ruff format --check .` | Passed, 115 files. |
 | `.venv/bin/python -m compileall -q laya_coreml tests scripts` | Passed. |
 | `.venv/bin/python scripts/audit_public_api.py --package laya_coreml` | 345 entries, zero unclassified differences. |
-| Isolated stdlib native CLI smoke, with loader mocked | Six cases passed: five malformed/unreadable paths never load; a BOM file reaches prediction with native options intact. The corresponding pytest regressions are included for CI. |
+| Isolated stdlib native CLI smoke, with loader mocked | Six cases passed: five read/encoding/JSON-parsing failures never load; a BOM file reaches prediction with native options intact. The corresponding pytest regressions are included for CI. |
 | `git diff --check` | Passed. |
 
 Direct changed-definition AST comparison against upstream matches all applicable
@@ -151,5 +152,32 @@ PyPI resolver also attempted CUDA wheels before failing, so no successful compat
 project installation is claimed. Owned install processes were stopped before handoff.
 Use the CI installation order (finish Torch CPU installation first, then install the
 project extras) or explicitly constrain the CPU wheel for local reproduction.
-Full Linux/macOS CI, independent review, native inference and real-model stability
-remain pending; source/static evidence alone is not a release qualification.
+Full-checkpoint stability, clean inference-only wheel smoke, and performance/energy
+benchmarks were not rerun. This is a tested source migration, not release qualification.
+
+## Remote CI and independent review
+
+[Run 40825520186](https://github.com/Omicron0314/laya-coreml/actions/runs/40825520186)
+passed on source commit `23a317b62b77227e944cefe9c68bab55ca6f41a0`:
+
+| Gate | Linux | macOS 26 |
+|---|---|---|
+| Complete pytest suite | 386 passed, 3 skipped | 389 passed |
+| Public API audit | 345 entries, zero unclassified differences | Same |
+| Ruff lint/format, wheel/sdist build, strict Twine | Passed | Passed |
+
+The Linux skips are real Core ML conversion/dynamic-padding inference and the
+FP32/FP16 parallel-layout conversion/runtime cases; all three passed on macOS.
+Warnings on macOS are retained in the CI log. This does not revalidate the full
+published checkpoints, ANE energy measurements or performance claims.
+
+Two independent source reviews found no blocking migration defect or hidden
+assertion weakening. They checked complete upstream coverage, native runtime/cache
+boundaries, the long-attribution helper, confidence exclusions and the unchanged
+idle deadline adapter. The native CLI still delegates question-schema validation
+to prediction after model loading; its new pre-load validation covers file reading,
+encoding and JSON parsing only. That existing schema-validation limitation is not
+an omitted v0.4.17 change.
+
+This CI receipt was added in a documentation-only follow-up; implementation,
+tests and CI configuration remain identical to the tested source commit.
